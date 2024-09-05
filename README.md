@@ -25,17 +25,6 @@ app.get("/", (c) => c.html(html`<h1 class="text-red-500 font-bold">Hello World</
 app.get("./dist/output.css", serveStatic({ root: "./" }));
 ```
 
-If you would like, you can pass in your `app` instance to the middleware, and it will serve the CSS file for you. (Based on the pasth you configure)
-```ts
-import { hono } from "hono";
-import { tailwind } from "hono-tailwind";
-
-const app = hono();
-
-// refers to your app's root directory
-app.use(tailwind({ outputPath: "./dist/output.css" }), app);
-```
-
 Here's what the middleware will look like fully configured:
 ```ts
 import { hono } from "hono";
@@ -63,7 +52,7 @@ app.use(tailwind({
   outputPath: "./dist/output.css",
 }));
 // however you want to do it
-app.get("./dist/output.css", serveStatic({ root: "./" }));
+app.get("/dist/output.css", serveStatic({ root: "./" }));
 ```
 
 ### Goals
