@@ -23,7 +23,6 @@ const app = hono();
 
 app.use(tailwind());
 app.get("/", (c) => c.html(html`<h1 class="text-red-500 font-bold">Hello World</h1>`));
-app.get("/dist/output.css", serveStatic({ root: "./" }));
 ```
 
 If you would like, you can pass in your `app` instance to the middleware, and it will serve the CSS file for you. (Based on the pasth you configure)
@@ -66,4 +65,3 @@ app.use(tailwind({
 ### Motivation
 
 I really love working with Hono, but installing TailwindCSS is a pain. I also do not want to run a separate process alongside my server, as that is tedious. In my future projects with Hono, I want to be able to add this middleware and just get started designing with TailwindCSS.
-
