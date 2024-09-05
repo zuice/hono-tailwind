@@ -11,6 +11,9 @@ export async function processCss({
 	configPath,
 	outputPath,
 }: Options): Promise<string> {
+	// in theory this should not throw because we pass the deafult in anyways
+	if (!input) throw new Error("No input path for your CSS provided.");
+
 	const css = await fs.readFile(input, "utf8");
 	const plugins = [
 		tailwindcss(configPath ? { config: configPath } : ""),

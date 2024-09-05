@@ -13,7 +13,6 @@ bun add hono-tailwind
 2. Add the middleware to your Hono app
 
 It requires no config, so you can just throw it in to hack around and it will work.
-Please note that this isn't really recommended for production - this will just toss the CSS into a `<style />` tag.
 ```ts
 import { hono } from "hono";
 import { tailwind } from "hono-tailwind";
@@ -23,6 +22,7 @@ const app = hono();
 
 app.use(tailwind());
 app.get("/", (c) => c.html(html`<h1 class="text-red-500 font-bold">Hello World</h1>`));
+app.get("./dist/output.css", serveStatic({ root: "./" }));
 ```
 
 If you would like, you can pass in your `app` instance to the middleware, and it will serve the CSS file for you. (Based on the pasth you configure)
@@ -48,6 +48,23 @@ app.use(tailwind({
   configPath: "./tailwind.config.js",
   outputPath: "./dist/output.css",
 }, app));
+```
+
+Finally, if you'd like to not pass your app into the middleware, you can just serve it yourself. Just remember to pass in the path to your CSS OUTPUT file.
+```ts
+import { hono } from "hono";
+import { tailwind } from "hono-tailwind";
+
+const app = hono();
+
+app.use(tailwind({
+  input: "./src/static/main.css",
+  configPath: "./tailwind.config.js",
+  outputPath: "./dist/output.css",
+}));
+// however you want to do it
+app.get("./dist/output.css", serveStatic({ root: "./" }));
+```
 
 ### Goals
 
