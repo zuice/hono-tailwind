@@ -3,8 +3,8 @@ import type { Context, Hono, Next } from "hono";
 import { serveStatic } from "hono/bun";
 import { html } from "hono/html";
 
-import type { Options } from "@/types";
 import { processCss } from "@/process-css";
+import type { Options } from "@/types";
 
 const defaultOptions: Options = {
 	input: path.join(__dirname, "templates", "main.css"),
@@ -12,35 +12,14 @@ const defaultOptions: Options = {
 	outputPath: path.join("./dist", "output.css"),
 };
 
-export function tailwind(options?: Options, app?: Hono) {
+export function tailwind(options?: Options) {
 	// TODO: Change these for user-configurable paths
-	const output = processCss(options ?? defaultOptions);
-
-	if (app) {
-		// Serve the CSS file we built
-		const currentOptions = options ?? defaultOptions;
-
-		if (currentOptions.outputPath) {
-			app.get(currentOptions.outputPath, serveStatic({ root: "./" }));
-		}
-	}
+	const output = processCss({ ...defaultOptions, ...options });
 
 	return async (c: Context, next: Next) => {
 		const style = html`<link rel="stylesheet" href="${await output}" />`;
 
-		// Only do this if the user has not set their base HTML
-		c.setRenderer((children) =>
-			c.html(html`
-       <html>
-         <head>
-           ${style}
-         </head>
-         <body>
-          ${children}
-         </body>
-       </html>
-      `),
-		);
+		c.set("tailwind", style);
 
 		return await next();
 	};
