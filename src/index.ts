@@ -1,6 +1,5 @@
 import path from "node:path";
-import type { Context, Hono, Next } from "hono";
-import { serveStatic } from "hono/bun";
+import type { Context, Next } from "hono";
 import { html } from "hono/html";
 
 import { processCss } from "@/process-css";
