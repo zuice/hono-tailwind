@@ -31,7 +31,7 @@ app.use(
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hono + Tailwind</title>
-        ${html`${c.get("tailwind")}`}
+        <link rel="stylesheet" href={c.get("tailwind")} />
       </head>
       <body>
         ${children}

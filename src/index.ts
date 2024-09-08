@@ -16,7 +16,7 @@ export function tailwind(options?: Options) {
 	const output = processCss({ ...defaultOptions, ...options });
 
 	return async (c: Context, next: Next) => {
-		const style = html`<link rel="stylesheet" href="${await output}" />`;
+		const style = await output;
 
 		c.set("tailwind", style);
 

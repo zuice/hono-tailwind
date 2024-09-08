@@ -12,7 +12,6 @@
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
 
     // Best practices
     "strict": true,
@@ -26,5 +25,8 @@
     "paths": {
       "@/*": ["./src/*"],
     },
-  }
+    "declaration": true,
+    "outDir": "dist",
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
 }
