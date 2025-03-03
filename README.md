@@ -10,44 +10,55 @@ This project is a [TailwindCSS](https://tailwindcss.com/) middleware for [Hono](
 bun add hono-tailwind
 ```
 
+OR
+
+```bash
+npm i -S hono-tailwind
+```
+
 2. Add the middleware to your Hono app
 
 ```ts
-import { Hono } from "hono";
-import { html } from "hono/html";
-import { jsxRenderer } from "hono/jsx-renderer";
-import { serveStatic } from "hono/bun";
-import { tailwind } from "hono-tailwind";
+import { Hono } from "hono"
+import { html } from "hono/html"
+import { jsxRenderer } from "hono/jsx-renderer"
+import { serveStatic } from "hono/bun"
+import { tailwind } from "hono-tailwind"
 
-const app = new Hono();
+const app = new Hono()
 
-app.use(tailwind());
+app.use(tailwind())
 app.use(
-	jsxRenderer(
-		({ children }, c) => html`
+  jsxRenderer(
+    ({ children }, c) => html`
       <!DOCTYPE html>
       <html lang="en">
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hono + Tailwind</title>
-        <link rel="stylesheet" href={c.get("tailwind")} />
+        <link rel="stylesheet" href="${c.get("tailwind")}" />
+
       </head>
       <body>
         ${children}
       </html>
     `,
-	),
-);
-app.get("/", (c) => {
-    return c.render(
-        <>
-            <p class="text-red-500">Hello, World!</p>
-            <p class="text-green-500">Another</p>
-        </>,
-    );
-});
-app.get("/dist/output.css", serveStatic({ root: "./" }));
+  ),
+)
+app.get("/", c => {
+  return c.render(
+    <>
+      <p class="text-red-500">Hello, World!</p>
+      <p class="text-green-500">Another</p>
+    </>,
+  )
+})
+app.get("/dist/output.css", serveStatic({ root: "./" }))
+
+console.log("🚀 Server started at http://localhost:3000")
+
+export default app
 ```
 
 ### Motivation

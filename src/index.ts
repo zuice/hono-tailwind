@@ -1,25 +1,24 @@
-import path from "node:path";
-import type { Context, Next } from "hono";
-import { html } from "hono/html";
+import path from "node:path"
+import { type Context, type Next } from "hono"
 
-import { processCss } from "@/process-css";
-import type { Options } from "@/types";
+import { processCss } from "@/process-css"
+import type { Options } from "@/types"
 
 const defaultOptions: Options = {
-	input: path.join(__dirname, "templates", "main.css"),
-	configPath: path.join(__dirname, "templates", "tailwind.config.js"),
-	outputPath: path.join("./dist", "output.css"),
-};
+  input: path.join(__dirname, "templates", "main.css"),
+  configPath: path.join(__dirname, "templates", "tailwind.config.js"),
+  outputPath: path.join("./dist", "output.css"),
+}
 
 export function tailwind(options?: Options) {
-	// TODO: Change these for user-configurable paths
-	const output = processCss({ ...defaultOptions, ...options });
+  // TODO: Change these for user-configurable paths
+  const output = processCss({ ...defaultOptions, ...options })
 
-	return async (c: Context, next: Next) => {
-		const style = await output;
+  return async (c: Context, next: Next) => {
+    const style = await output
 
-		c.set("tailwind", style);
+    c.set("tailwind", style)
 
-		return await next();
-	};
+    return await next()
+  }
 }
