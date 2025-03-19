@@ -1,6 +1,6 @@
 {
 	"name": "hono-tailwind",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"module": "dist/index.js",
 	"main": "dist/index.js",
 	"type": "module",
