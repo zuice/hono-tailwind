@@ -5,9 +5,9 @@ import { processCss } from "@/process-css"
 import type { Options } from "@/types"
 
 const defaultOptions: Options = {
-  input: path.join(__dirname, "templates", "main.css"),
-  configPath: path.join(__dirname, "templates", "tailwind.config.js"),
-  outputPath: path.join("./dist", "output.css"),
+  input: path.join(import.meta.dir, "templates", "main.css"),
+  configPath: path.join(import.meta.dir, "templates", "tailwind.config.js"),
+  outputPath: path.join("dist", "output.css"),
 }
 
 export function tailwind(options?: Options) {
