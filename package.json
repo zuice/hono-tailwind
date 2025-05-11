@@ -1,15 +1,13 @@
 {
   "name": "hono-tailwind",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
+  "files": [
+    "package.json",
+    "dist"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "build": "tsc --emitDeclarationOnly && rolldown --config rolldown.config.ts"
