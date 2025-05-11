@@ -17,7 +17,7 @@ npm i -S hono-tailwind
 ```ts
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { tailwind } from "hono-tailwind-2";
+import { tailwind } from "hono-tailwind";
 
 const app = new Hono();
 
