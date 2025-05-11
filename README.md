@@ -1,16 +1,12 @@
 # hono-tailwind 🔥 (WIP)
 
-This project is a [TailwindCSS](https://tailwindcss.com/) middleware for [Hono](https://github.com/honojs/hono). This is just a way of doing it without Vite, so for now mostly SSR projects will benefit from this.
+This project is a [TailwindCSS](https://tailwindcss.com/) middleware for [Hono](https://github.com/honojs/hono). This is just a way of doing it without Vite, and it will just compile your TailwindCSS on every request.
+
+For now this is really only recommended in development until I make a way to save the file to your system.
 
 ### Usage (Subject to change)
 
 1. Install the package
-
-```bash
-bun add hono-tailwind
-```
-
-OR
 
 ```bash
 npm i -S hono-tailwind
@@ -19,48 +15,42 @@ npm i -S hono-tailwind
 2. Add the middleware to your Hono app
 
 ```ts
-import { Hono } from "hono"
-import { html } from "hono/html"
-import { jsxRenderer } from "hono/jsx-renderer"
-import { serveStatic } from "hono/bun"
-import { tailwind } from "hono-tailwind"
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { tailwind } from "hono-tailwind-2";
 
-const app = new Hono()
+const app = new Hono();
 
-app.use(tailwind())
-app.use(
-  jsxRenderer(
-    ({ children }, c) => html`
-      <!DOCTYPE html>
-      <html lang="en">
+app.use("/tailwind.css", tailwind());
+app.get("/", (c) =>
+  c.html(`
+    <!doctype html>
+    <html>
       <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Hono + Tailwind</title>
-        <link rel="stylesheet" href="${c.get("tailwind")}" />
-
+        <link rel="stylesheet" href="/tailwind.css">
       </head>
-      <body>
-        ${children}
-      </html>
-    `,
-  ),
-)
-app.get("/", c => {
-  return c.render(
-    <>
-      <p class="text-red-500">Hello, World!</p>
-      <p class="text-green-500">Another</p>
-    </>,
-  )
-})
-app.get("/dist/output.css", serveStatic({ root: "./" }))
+      <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+        <div>
+          <h1 class="text-4xl font-bold text-blue-600">Hello Tailwind + Hono!</h1>
+          <p class="mt-4 text-lg text-gray-700">If this is styled, it works 🎉</p>
+        </div>
+      </body>
+    </html>
+  `),
+);
 
-console.log("🚀 Server started at http://localhost:3000")
-
-export default app
+serve(
+  {
+    fetch: app.fetch,
+    port: 3000,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`);
+  },
+);
 ```
 
-### Motivation
+### To Do
 
-I really love working with Hono, but installing TailwindCSS is a pain. I also do not want to run a separate process alongside my server, as that is tedious. In my future projects with Hono, I want to be able to add this middleware and just get started designing with TailwindCSS.
+[ ] Set up a way for the user to configure their own tailwind
+[ ] Set up a way to export the generated tailwind css file

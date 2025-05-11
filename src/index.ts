@@ -1,24 +1,31 @@
-import path from "node:path"
-import { type Context, type Next } from "hono"
+import type { MiddlewareHandler } from "hono";
+import postcss from "postcss";
+import tailwindcss from "@tailwindcss/postcss";
 
-import { processCss } from "@/process-css"
-import type { Options } from "@/types"
+const TAILWIND_INPUT = `
+@import "tailwindcss";
+`;
 
-const defaultOptions: Options = {
-  input: path.join(import.meta.dir, "templates", "main.css"),
-  configPath: path.join(import.meta.dir, "templates", "tailwind.config.js"),
-  outputPath: path.join("dist", "output.css"),
-}
+let cachedCss: string | null = null;
 
-export function tailwind(options?: Options) {
-  // TODO: Change these for user-configurable paths
-  const output = processCss({ ...defaultOptions, ...options })
-
-  return async (c: Context, next: Next) => {
-    const style = await output
-
-    c.set("tailwind", style)
-
-    return await next()
-  }
+export function tailwind(): MiddlewareHandler {
+  return async (c, next) => {
+    if (c.req.method === "GET" && c.req.path === "/tailwind.css") {
+      if (!cachedCss) {
+        const base = `${process.cwd()}/src/index.ts`;
+        const result = await postcss([
+          tailwindcss({ base, optimize: { minify: false } }),
+        ]).process(TAILWIND_INPUT, {
+          // this needs to be something random for the entire thign to work :)
+          from: "fake-css-file.css",
+        });
+        cachedCss = result.css;
+      }
+      return c.text(cachedCss, 200, {
+        "Content-Type": "text/css; charset=utf-8",
+        "Cache-Control": "public, max-age=3600",
+      });
+    }
+    await next();
+  };
 }
