@@ -12,7 +12,13 @@ For now this is really only recommended in development until I make a way to sav
 npm i -S hono-tailwind
 ```
 
-2. Add the middleware to your Hono app
+2. Install TailwindCSS package
+
+```bash
+npm i -S tailwindcss
+```
+
+3. Add the middleware to your Hono app
 
 ```ts
 import { serve } from "@hono/node-server";
@@ -53,4 +59,5 @@ serve(
 ### To Do
 
 [ ] Set up a way for the user to configure their own tailwind
+
 [ ] Set up a way to export the generated tailwind css file
