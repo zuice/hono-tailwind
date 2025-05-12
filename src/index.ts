@@ -25,13 +25,12 @@ export function tailwind(config?: HonoTailwindConfig): MiddlewareHandler {
   return async (c, next) => {
     if (c.req.method === "GET" && c.req.path === "/tailwind.css") {
       if (!cachedCss) {
-        const base = `${process.cwd()}/src/index.ts`;
+        const base = path.join(process.cwd(), "src");
         const result = await postcss([
           tailwindcss({ base, optimize: { minify: false } }),
         ]).process(TAILWIND_INPUT, {
           // this needs to be something random for the entire thign to work :)
-          from: "fake-css-file.css",
-          to: config?.out ?? undefined,
+          from: "virtual-css.css",
         });
         cachedCss = result.css;
 
