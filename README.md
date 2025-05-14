@@ -26,19 +26,26 @@ import { Hono } from "hono";
 import { tailwind } from "hono-tailwind";
 
 const app = new Hono();
+const NODE_ENV = process.env.NODE_ENV || "development";
 
-app.use("/tailwind.css", tailwind());
+app.use(
+  "/public/tailwind.css",
+  tailwind({
+    out: NODE_ENV === "production" ? "/public/tailwind.css" : undefined,
+  }),
+);
 app.get("/", (c) =>
   c.html(`
     <!doctype html>
     <html>
       <head>
-        <link rel="stylesheet" href="/tailwind.css">
+        <link rel="stylesheet" href="/public/tailwind.css">
       </head>
       <body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
         <div>
           <h1 class="text-4xl font-bold text-blue-600">Hello Tailwind + Hono!</h1>
-          <p class="mt-4 text-lg text-gray-700">If this is styled, it works 🎉</p>
+          <p class="mt-4 text-lg text-gray-800">If this is styled, it works 🎉</p>
+          <p class="mt-4 text-lg text-gray-600">This is even lighter!</p>
         </div>
       </body>
     </html>

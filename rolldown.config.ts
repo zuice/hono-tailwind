@@ -8,5 +8,12 @@ export default defineConfig({
     sourcemap: true,
     entryFileNames: "[name].js",
   },
-  external: ["hono", "postcss", "@tailwindcss/postcss"],
+  external: [
+    "hono",
+    "postcss",
+    "@tailwindcss/postcss",
+    "node:fs",
+    "node:fs/promises",
+    "node:path",
+  ],
 });

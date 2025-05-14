@@ -18,7 +18,8 @@
   "license": "MIT",
   "description": "",
   "peerDependencies": {
-    "hono": "^4.0.0"
+    "hono": "^4.0.0",
+    "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
     "@types/node": "^22.15.17",
@@ -27,7 +28,6 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.6",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.6"
+    "postcss": "^8.5.3"
   }
 }
