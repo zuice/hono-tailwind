@@ -12,8 +12,6 @@ const TAILWIND_INPUT = `
 export async function buildCss(config?: Config) {
   let cachedCss: string | null = null;
 
-  console.log("Building CSS");
-
   const base = config?.base
     ? path.resolve(config.base)
     : path.join(process.cwd(), "src");
@@ -27,7 +25,6 @@ export async function buildCss(config?: Config) {
   if (config?.out) {
     const outPath = path.join(process.cwd(), config.out);
     await writeFile(outPath, cachedCss, "utf8");
-    console.info("CSS written to:", outPath);
   }
 
   return cachedCss;
