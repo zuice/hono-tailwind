@@ -10,8 +10,6 @@ const TAILWIND_INPUT = `
 `;
 
 export async function buildCss(config?: Config) {
-  let cachedCss: string | null = null;
-
   const base = config?.base
     ? path.resolve(config.base)
     : path.join(process.cwd(), "src");
@@ -20,12 +18,12 @@ export async function buildCss(config?: Config) {
   ]).process(TAILWIND_INPUT, {
     from: "virtual-css.css",
   });
-  cachedCss = result.css;
+  const css = result.css;
 
   if (config?.out) {
     const outPath = path.join(process.cwd(), config.out);
-    await writeFile(outPath, cachedCss, "utf8");
+    await writeFile(outPath, css, "utf8");
   }
 
-  return cachedCss;
+  return css;
 }
