@@ -1,4 +1,4 @@
 export interface Config {
+  in?: string;
   out?: string;
-  base?: string;
 }
