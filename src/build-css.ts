@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/postcss";
 import { readFile, writeFile } from "node:fs/promises";
 
 import { Config } from "./types/config.js";
+import { ensureDirectoryExists } from "./ensure-directory-exists.js";
 
 const TAILWIND_INPUT = `
 @import "tailwindcss";
@@ -31,6 +32,7 @@ export async function buildCss(config?: Config) {
 
   if (config?.out) {
     const outPath = path.join(process.cwd(), config.out);
+    await ensureDirectoryExists(outPath);
     await writeFile(outPath, css, "utf8");
   }
 
