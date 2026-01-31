@@ -15,5 +15,6 @@ export default defineConfig({
     "node:fs",
     "node:fs/promises",
     "node:path",
+    "node:crypto",
   ],
 });
